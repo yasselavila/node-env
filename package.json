@@ -1,0 +1,32 @@
+{
+  "name": "yag-env",
+  "description": "Prepares the data defined via 'process.env' to be used in web applications or node packages",
+  "version": "0.0.1",
+  "license": "BSD-3-Clause",
+  "author": {
+    "name": "Yassel Avila Gil",
+    "url": "http://yasselavila.com/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/yasselavila/yag-env.git"
+  },
+  "main": "index.js",
+  "jsnext:main": "esm/index.js",
+  "es6:main": "esm/index.js",
+  "typings": "index.d.ts",
+  "devDependencies": {
+    "typescript": "^1.9.0-dev.20160409",
+    "@types/node": "^4.0.30"
+  },
+  "scripts": {
+    "start": "npm run build",
+    "build": "npm run clean && npm run cp && npm run tsc",
+    "clean": "rm -rf dist && mkdir dist",
+    "cp": "npm run cp:pkg && npm run cp:lic && npm run cp:readme",
+    "cp:pkg": "cp package.json dist/",
+    "cp:lic": "cp LICENSE.txt dist/",
+    "cp:readme": "cp README.md dist/",
+    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig.es6.json"
+  }
+}
