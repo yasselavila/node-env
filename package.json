@@ -27,6 +27,8 @@
     "cp:pkg": "cp package.json dist/",
     "cp:lic": "cp LICENSE.txt dist/",
     "cp:readme": "cp README.md dist/",
-    "tsc": "tsc -p tsconfig.json && tsc -p tsconfig.es6.json"
+    "tsc": "npm run tsc:es5 && npm run tsc:es6",
+    "tsc:es5": "tsc --target es5 --module commonjs --outDir dist",
+    "tsc:es6": "tsc --target es2015 --module es2015 --outDir dist/esm"
   }
 }
