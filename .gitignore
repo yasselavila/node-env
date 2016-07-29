@@ -1,0 +1,31 @@
+# OS generated files
+.DS_Store
+ehthumbs.db
+Icon?
+Thumbs.db
+
+# IDE related
+nbproject
+._*
+.~lock.*
+.idea
+.buildpath
+.idea
+.project
+.settings
+.vscode
+*.swp
+
+# Other
+composer.lock
+vendor/bin
+./benchmarks.txt
+
+# User environment cariables
+.lock-wscript
+
+# Node files
+node_modules
+/node_modules
+/bower_components
+npm-debug.log
