@@ -9,4 +9,4 @@ Prepares the data defined via 'process.env' to be used in web applications or no
 
 ### License
 
-[See LICENSE.txt](./LICENSE.txt)
+[BSD 3 Clause](./LICENSE.txt)
