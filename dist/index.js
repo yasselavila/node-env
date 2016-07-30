@@ -6,7 +6,7 @@
  * @link      https://github.com/yasselavila/yag-env
  */
 "use strict";
-var data_1 = require('./data');
+var process_1 = require('./process');
 /* Env data source: process.env */
 var envData;
 try {
@@ -16,28 +16,9 @@ catch (e) {
     envData = {};
 }
 /* Data */
-var envName = envData['NODE_ENV'] || envData['ENV'] || null;
-var data = !!envName ? data_1.getData(envName, true) : null;
-/* Iterate and save data to export */
-var varsNamesToExport = String(envData.EXPORTS || '').trim().split(/\s*,\s*/g);
-var varsToExport = {};
-for (var key in envData) {
-    if (envData.hasOwnProperty(key)) {
-        /* Data from flag */
-        if (!data && (null !== (data = data_1.getData(key, envData[key])))) {
-            continue;
-        }
-        /* A variable to export */
-        if ((-1 != varsNamesToExport.indexOf(key)) && (key in envData)) {
-            varsToExport[key] = envData[key];
-        }
-    }
-}
-/* Complete data */
-if (null === data) {
-    data = data_1.createData();
-}
-data.exported = varsToExport;
+/* This helps with tree-shaking when closure-compiler
+ * is used to compile browser bundles ;-) */
+var data = !envData.$PROCESSED ? process_1.processEnvData(envData) : envData;
 /* Exports */
 exports.ENV = data.ENV;
 exports.isProduction = data.isProduction;

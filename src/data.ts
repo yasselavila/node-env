@@ -21,11 +21,17 @@ export interface BaseData {
   [key: string]: any;
 }
 
-export interface ProcessData extends BaseData {
+export interface ProcessedData {
+  /* This flag is necessary for preprocessed values of process.env,
+   * like the defined on webpack bundles */
+  $PROCESSED?: boolean;
+}
+
+export interface ProcessData extends BaseData, ProcessedData {
   EXPORTS?: string;
 }
 
-export interface Data {
+export interface Data extends ProcessedData {
   /* ENv name */
   ENV: string;
   /* Flags */
@@ -35,8 +41,6 @@ export interface Data {
   isDevelopment: boolean;
   /* Extra data exported */
   exported: BaseData;
-  //TODO
-  PROCESSED?: boolean;
 }
 
 /* Tools */

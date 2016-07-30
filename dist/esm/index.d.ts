@@ -6,7 +6,7 @@
  * @link      https://github.com/yasselavila/yag-env
  */
 import { BaseData, Data } from './data';
-declare let data: Data | null;
+declare let data: Data;
 export declare const ENV: string;
 export declare const isProduction: boolean;
 export declare const isTesting: boolean;

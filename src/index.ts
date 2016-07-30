@@ -6,7 +6,8 @@
  * @link      https://github.com/yasselavila/yag-env
  */
 
-import {BaseData, ProcessData, Data, getData, createData} from './data';
+import {BaseData, ProcessData, Data} from './data';
+import {processEnvData} from './process';
 
 /* Env data source: process.env */
 
@@ -20,35 +21,9 @@ try {
 
 /* Data */
 
-let envName: string|null = envData['NODE_ENV'] || envData['ENV'] || null;
-let data: Data|null = !!envName ? getData(envName, true) : null;
-
-/* Iterate and save data to export */
-
-let varsNamesToExport: string[] = String(envData.EXPORTS || '').trim().split(/\s*,\s*/g);
-let varsToExport: BaseData = {};
-
-for (let key in envData) {
-  if (envData.hasOwnProperty(key)) {
-    /* Data from flag */
-    if (!data && (null !== (data = getData(key, envData[key])))) {
-      continue;
-    }
-
-    /* A variable to export */
-    if ((-1 != varsNamesToExport.indexOf(key)) && (key in envData)) {
-      varsToExport[key] = envData[key];
-    }
-  }
-}
-
-/* Complete data */
-
-if (null === data) {
-  data = createData();
-}
-
-data.exported = varsToExport;
+/* This helps with tree-shaking when closure-compiler
+ * is used to compile browser bundles ;-) */
+let data: Data = !envData.$PROCESSED ? processEnvData(envData) : (<Data>envData);
 
 /* Exports */
 
