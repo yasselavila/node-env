@@ -10,6 +10,23 @@ var process_1 = require('./process');
 /* Env data source: process.env */
 var envData;
 try {
+    /*
+     * This only works on Node.js
+     *
+     * With Webpack you can use DefinePlugin to replace 'process.env':
+     *    ```js
+     *    var env = require('yag-env');
+     *    ...
+     *    plugins: [
+     *      new DefinePlugin({
+     *        'process.env': JSON.stringify(env.default)
+     *      })
+     *    ]
+     *    ...
+     *    ```
+     *
+     * On other build-tools you must use something similar
+     */
     envData = process.env;
 }
 catch (e) {
