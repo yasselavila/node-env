@@ -6,60 +6,45 @@
  * @link      https://github.com/yasselavila/yag-env
  */
 "use strict";
-/* Data source: process.env */
-var data;
+var data_1 = require('./data');
+/* Env data source: process.env */
+var envData;
 try {
-    data = process.env || {};
+    envData = process.env;
 }
 catch (e) {
-    data = {};
+    envData = {};
 }
-/* Custom exports */
-var env = {};
-exports.env = env;
-if (!!data.EXPORTS) {
-    var varsToExport = String(data.EXPORTS).trim().split(/\s*,\s*/g);
-    for (var _i = 0, varsToExport_1 = varsToExport; _i < varsToExport_1.length; _i++) {
-        var varToExport = varsToExport_1[_i];
-        env[varToExport] = data[varToExport] || null;
+/* Data */
+var envName = envData['NODE_ENV'] || envData['ENV'] || null;
+var data = !!envName ? data_1.getData(envName, true) : null;
+/* Iterate and save data to export */
+var varsNamesToExport = String(envData.EXPORTS || '').trim().split(/\s*,\s*/g);
+var varsToExport = {};
+for (var key in envData) {
+    if (envData.hasOwnProperty(key)) {
+        /* Data from flag */
+        if (!data && (null !== (data = data_1.getData(key, envData[key])))) {
+            continue;
+        }
+        /* A variable to export */
+        if ((-1 != varsNamesToExport.indexOf(key)) && (key in envData)) {
+            varsToExport[key] = envData[key];
+        }
     }
 }
-/* ENV name */
-var envName = data['NODE_ENV'] || data['ENV'] || 'development';
-switch (envName.toLowerCase()) {
-    case 'production':
-    case 'prod':
-    case 'p':
-        envName = 'production';
-        break;
-    case 'staging':
-    case 'stg':
-    case 's':
-        envName = 'staging';
-        break;
-    case 'testing':
-    case 'test':
-    case 't':
-        envName = 'testing';
-        break;
-    default:
-        envName = 'development';
-        break;
+/* Complete data */
+if (null === data) {
+    data = data_1.createData();
 }
+data.exported = varsToExport;
 /* Exports */
-var ENV = envName;
-exports.ENV = ENV;
-var isDevelopment = ('development' == ENV);
-exports.isDevelopment = isDevelopment;
-var isTesting = ('testing' == ENV);
-exports.isTesting = isTesting;
-var isStaging = ('staging' == ENV);
-exports.isStaging = isStaging;
-var isProduction = ('production' == ENV);
-exports.isProduction = isProduction;
-env.ENV = ENV;
-env.isDevelopment = isDevelopment;
-env.isTesting = isTesting;
-env.isStaging = isStaging;
-env.isProduction = isProduction;
+exports.ENV = data.ENV;
+exports.isProduction = data.isProduction;
+exports.isTesting = data.isTesting;
+exports.isStaging = data.isStaging;
+exports.isDevelopment = data.isDevelopment;
+exports.exported = data.exported;
+Object.defineProperty(exports, "__esModule", { value: true });
+exports.default = data;
 //# sourceMappingURL=index.js.map

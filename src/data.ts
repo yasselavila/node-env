@@ -1,0 +1,70 @@
+/**
+ * yag-env
+ *
+ * @copyright Copyright (c) 2016, Yassel Avila Gil (http://yasselavila.com)
+ * @license   BSD 3 Clause (see LICENSE.txt)
+ * @link      https://github.com/yasselavila/yag-env
+ */
+
+let flagExprs: {[key: string]: RegExp} = {
+  'production': /^P(ROD(UCTION)?)?$/i,
+  'staging': /^S(TA?G(ING)?)?$/i,
+  'testing': /^T(EST(ING)?)?$/i,
+  'development': /^D(EV((EL(OPMENT)?)?)?)?$/i,
+};
+
+let trueExpr: RegExp = /^(TRUE|YES|1)$/i;
+
+/* Types */
+
+export interface BaseData {
+  [key: string]: any;
+}
+
+export interface ProcessData extends BaseData {
+  EXPORTS?: string;
+}
+
+export interface Data {
+  /* ENv name */
+  ENV: string;
+  /* Flags */
+  isProduction: boolean;
+  isStaging: boolean;
+  isTesting: boolean;
+  isDevelopment: boolean;
+  /* Extra data exported */
+  exported: BaseData;
+  //TODO
+  PROCESSED?: boolean;
+}
+
+/* Tools */
+
+export function createData(envName?: string, base?: any): Data {
+  envName = String(envName || 'development').toLowerCase();
+  let ret: Data = <any>(base || {});
+
+  ret.ENV = envName;
+  ret.isProduction = ('production' == envName);
+  ret.isTesting = ('testing' == envName);
+  ret.isStaging = ('staging' == envName);
+  ret.isDevelopment = ('development' == envName);
+
+  return ret;
+}
+
+export function getData(varName: string, varValue: any): Data|null {
+  let ret: Data|null = null;
+
+  for (let en in flagExprs) {
+    if (flagExprs.hasOwnProperty(en)
+      && (flagExprs[en].test(varName) && trueExpr.test(varValue))
+    ) {
+      ret = createData(en);
+      break;
+    }
+  }
+
+  return ret;
+}

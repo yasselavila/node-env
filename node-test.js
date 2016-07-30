@@ -6,6 +6,6 @@
  * @link      https://github.com/yasselavila/yag-env
  */
 
-const env = require('./dist');
+const envData = require('./dist');
 
-console.log(env);
+console.log(envData);

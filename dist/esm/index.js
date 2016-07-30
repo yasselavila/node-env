@@ -5,54 +5,44 @@
  * @license   BSD 3 Clause (see LICENSE.txt)
  * @link      https://github.com/yasselavila/yag-env
  */
-/* Data source: process.env */
-var data;
+import { getData, createData } from './data';
+/* Env data source: process.env */
+let envData;
 try {
-    data = process.env || {};
+    envData = process.env;
 }
 catch (e) {
-    data = {};
+    envData = {};
 }
-/* Custom exports */
-var env = {};
-if (!!data.EXPORTS) {
-    let varsToExport = String(data.EXPORTS).trim().split(/\s*,\s*/g);
-    for (let varToExport of varsToExport) {
-        env[varToExport] = data[varToExport] || null;
+/* Data */
+let envName = envData['NODE_ENV'] || envData['ENV'] || null;
+let data = !!envName ? getData(envName, true) : null;
+/* Iterate and save data to export */
+let varsNamesToExport = String(envData.EXPORTS || '').trim().split(/\s*,\s*/g);
+let varsToExport = {};
+for (let key in envData) {
+    if (envData.hasOwnProperty(key)) {
+        /* Data from flag */
+        if (!data && (null !== (data = getData(key, envData[key])))) {
+            continue;
+        }
+        /* A variable to export */
+        if ((-1 != varsNamesToExport.indexOf(key)) && (key in envData)) {
+            varsToExport[key] = envData[key];
+        }
     }
 }
-/* ENV name */
-var envName = data['NODE_ENV'] || data['ENV'] || 'development';
-switch (envName.toLowerCase()) {
-    case 'production':
-    case 'prod':
-    case 'p':
-        envName = 'production';
-        break;
-    case 'staging':
-    case 'stg':
-    case 's':
-        envName = 'staging';
-        break;
-    case 'testing':
-    case 'test':
-    case 't':
-        envName = 'testing';
-        break;
-    default:
-        envName = 'development';
-        break;
+/* Complete data */
+if (null === data) {
+    data = createData();
 }
+data.exported = varsToExport;
 /* Exports */
-const ENV = envName;
-const isDevelopment = ('development' == ENV);
-const isTesting = ('testing' == ENV);
-const isStaging = ('staging' == ENV);
-const isProduction = ('production' == ENV);
-env.ENV = ENV;
-env.isDevelopment = isDevelopment;
-env.isTesting = isTesting;
-env.isStaging = isStaging;
-env.isProduction = isProduction;
-export { env, ENV, isDevelopment, isTesting, isStaging, isProduction };
+export const ENV = data.ENV;
+export const isProduction = data.isProduction;
+export const isTesting = data.isTesting;
+export const isStaging = data.isStaging;
+export const isDevelopment = data.isDevelopment;
+export const exported = data.exported;
+export default data;
 //# sourceMappingURL=index.js.map
