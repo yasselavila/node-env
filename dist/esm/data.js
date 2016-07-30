@@ -14,7 +14,7 @@ let flagExprs = {
 let trueExpr = /^(TRUE|YES|1)$/i;
 /* Tools */
 export function createData(envName, base) {
-    envName = String(envName || 'development').toLowerCase();
+    envName = String(envName || 'production').toLowerCase();
     let ret = (base || {});
     ret.ENV = envName;
     ret.isProduction = ('production' == envName);

@@ -46,7 +46,7 @@ export interface Data extends ProcessedData {
 /* Tools */
 
 export function createData(envName?: string, base?: any): Data {
-  envName = String(envName || 'development').toLowerCase();
+  envName = String(envName || 'production').toLowerCase();
   let ret: Data = <any>(base || {});
 
   ret.ENV = envName;
