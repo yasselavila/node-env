@@ -30,6 +30,7 @@ try {
     envData = process.env;
 }
 catch (e) {
+    /* Fallback for browsers */
     envData = {};
 }
 /* Data */
