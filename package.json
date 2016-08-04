@@ -16,16 +16,21 @@
   "es6:main": "esm/index.js",
   "typings": "index.d.ts",
   "devDependencies": {
+    "npm-run-all": "^2.3.0",
     "typescript": "2.0.0-dev.20160706",
     "@types/node": "^6.0.31"
   },
   "scripts": {
-    "start": "npm run build",
-    "build": "npm run clean && npm run dist:data && npm run tsc",
-    "clean": "rm -rf dist && mkdir dist && cd dist && mkdir esm",
+    "start": "npm run build:w",
+    "build": "run-s clean dist:data tsc",
+    "build:w": "run-s clean dist:data tsc:w",
+    "clean": "rm -rf dist && mkdir -p dist && cd dist && mkdir esm",
     "dist:data": "cp package.json dist/ && cp README.md dist/ && cp LICENSE.txt dist/",
-    "tsc": "npm run tsc:es5 && npm run tsc:es6",
+    "tsc": "run-p tsc:es5 tsc:es6",
+    "tsc:w": "run-p tsc:es5:w tsc:es6:w",
     "tsc:es5": "tsc --target es5 --module commonjs --outDir dist",
-    "tsc:es6": "tsc --target es2015 --module es2015 --outDir dist/esm"
+    "tsc:es5:w": "tsc -w --target es5 --module commonjs --outDir dist",
+    "tsc:es6": "tsc --target es2015 --module es2015 --outDir dist/esm",
+    "tsc:es6:w": "tsc -w --target es2015 --module es2015 --outDir dist/esm"
   }
 }
