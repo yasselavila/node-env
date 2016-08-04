@@ -7,10 +7,10 @@
  */
 
 let flagExprs: {[key: string]: RegExp} = {
-  'production': /^P(ROD(UCTION)?)?$/i,
-  'staging': /^S(TA?G(ING)?)?$/i,
-  'testing': /^T(EST(ING)?)?$/i,
-  'development': /^D(EV((EL(OPMENT)?)?)?)?$/i,
+  'production': /^PROD(UCTION)?$/i,
+  'staging': /^STAGING$/i,
+  'testing': /^TEST(ING)?$/i,
+  'development': /^DEV(EL(OPMENT)?)?$/i,
 };
 
 let trueExpr: RegExp = /^(TRUE|YES|1)$/i;
