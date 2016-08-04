@@ -24,7 +24,7 @@
     "start": "run-s build:w",
     "build": "run-s clean dist:data tsc",
     "build:w": "run-s clean dist:data tsc:w",
-    "clean": "rm -rf dist && mkdir -p dist && cd dist && mkdir esm",
+    "clean": "rm -rf dist && mkdir dist && cd dist && mkdir esm",
     "dist:data": "cp package.json dist/ && cp README.md dist/ && cp LICENSE.txt dist/",
     "tsc": "run-p tsc:es5 tsc:es6",
     "tsc:w": "run-p tsc:es5:w tsc:es6:w",
