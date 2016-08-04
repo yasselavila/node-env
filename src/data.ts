@@ -32,7 +32,7 @@ export interface ProcessData extends BaseData, ProcessedData {
 }
 
 export interface Data extends ProcessedData {
-  /* ENv name */
+  /* ENV name */
   ENV: string;
   /* Flags */
   isProduction: boolean;
