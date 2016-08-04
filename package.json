@@ -21,12 +21,9 @@
   },
   "scripts": {
     "start": "npm run build",
-    "build": "npm run clean && npm run cp && npm run tsc",
-    "clean": "rm -rf dist && mkdir dist",
-    "cp": "npm run cp:pkg && npm run cp:lic && npm run cp:readme",
-    "cp:pkg": "cp package.json dist/",
-    "cp:lic": "cp LICENSE.txt dist/",
-    "cp:readme": "cp README.md dist/",
+    "build": "npm run clean && npm run dist:data && npm run tsc",
+    "clean": "rm -rf dist && mkdir dist && cd dist && mkdir esm",
+    "dist:data": "cp package.json dist/ && cp README.md dist/ && cp LICENSE.txt dist/",
     "tsc": "npm run tsc:es5 && npm run tsc:es6",
     "tsc:es5": "tsc --target es5 --module commonjs --outDir dist",
     "tsc:es6": "tsc --target es2015 --module es2015 --outDir dist/esm"

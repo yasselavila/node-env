@@ -1,14 +1,26 @@
 {
   "compilerOptions": {
     "noImplicitAny": true,
-    "strictNullChecks": true,
     "noImplicitThis": true,
-    "preserveConstEnums": true,
+    "noImplicitReturns": true,
+    "noImplicitUseStrict": false,
+    "noFallthroughCasesInSwitch": true,
     "noUnusedParameters": true,
     "noUnusedLocals": true,
+    "allowUnreachableCode": false,
+    "allowUnusedLabels": false,
+    "strictNullChecks": true,
+    "preserveConstEnums": true,
+    "noEmitHelpers": false,
+    "emitDecoratorMetadata": false,
+    "experimentalDecorators": false,
+    "removeComments": false,
     "declaration": true,
     "sourceMap": true,
-    "rootDir": "src"
+    "rootDir": "src",
+    "types": [
+      "node"
+    ]
   },
   "filesGlob": [
     "**/*.ts",
