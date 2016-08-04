@@ -7,5 +7,4 @@
  */
 
 const envData = require('./dist');
-
 console.log(envData);
