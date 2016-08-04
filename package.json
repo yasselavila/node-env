@@ -21,7 +21,7 @@
     "@types/node": "^6.0.31"
   },
   "scripts": {
-    "start": "npm run build:w",
+    "start": "run-s build:w",
     "build": "run-s clean dist:data tsc",
     "build:w": "run-s clean dist:data tsc:w",
     "clean": "rm -rf dist && mkdir -p dist && cd dist && mkdir esm",
