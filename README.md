@@ -15,30 +15,35 @@ Prepares the data defined via 'process.env' to be used in web applications or no
 
 ### Environment definition
 
-You can define the environment in the following ways:
+You can define the environment name using **NODE_ENV** or **ENV**:
 
-- Production (default):
-    * Defining **NODE_ENV** or **ENV**: ```NODE_ENV=production``` or ```ENV=prod```
-    * Using flags ```PRODUCTION=true```, ```PRODUCTION=yes``` or ```PROD=1```
+- Production (default): `NODE_ENV=production` or `ENV=prod`
+- Staging: `NODE_ENV=staging` or `ENV=staging`
+- Testing: `NODE_ENV=testing` or `ENV=test`
+- Development: `NODE_ENV=development` or `ENV=dev`
 
-- Staging:
-    * Defining **NODE_ENV** or **ENV**: ```NODE_ENV=staging``` or ```ENV=stg```
-    * Using flags ```STAGING=true```, ```STAGING=yes``` or ```STG=1```
+#### Using flags
 
-- Testing:
-    * Defining **NODE_ENV** or **ENV**: ```NODE_ENV=testing``` or ```ENV=stg```
-    * Using flags ```TESTING=true```, ```TESTING=yes``` or ```TEST=1```
+Also is possible the usage of boolean flags. Each ENV has several flag names that can
+be used with either of the following values: `true`, `yes` or `1`. For example:
 
-- Development:
-    * Defining **NODE_ENV** or **ENV**: ```NODE_ENV=development``` or ```ENV=dev```
-    * Using flags ```DEVELOPMENT=true```, ```DEVEL=yes``` or ```DEV=1```
+- Production (`PRODUCTION`|`PROD`): `PRODUCTION=true`, `PRODUCTION=yes` or `PROD=1`
+- Staging (`STAGING`): `STAGING=true`, `STAGING=yes` or `STAGING=1`
+- Testing (`TESTING`|`TEST`): `TESTING=true`, `TESTING=yes` or `TEST=1`
+- Development (`DEVELOPMENT`|`DEVEL`|`DEV`): `DEVELOPMENT=true`, `DEVEL=yes` or `DEV=1`
 
 ### Example
 
-The following will define the development environment and will export some extra variables:
+The following sets the development environment and will export some extra variables:
 
-```
+```sh
 NODE_ENV=development ONE=1 TWO=2 OTHER=other EXPORTS=ONE,TWO node node-test.js
+```
+
+Using flags:
+
+```sh
+PROD=1 ONE=1 TWO=2 OTHER=other EXPORTS=ONE,OTHER node node-test.js
 ```
 
 ### API
@@ -52,17 +57,43 @@ console.log(env.isProduction); // FALSE
 console.log(env.isStaging); // FALSE
 console.log(env.isTesting); // FALSE
 console.log(env.isDevelopment); // TRUE
-console.log(env.exported); // {ONE, TWO}
+console.log(env.data); // {ONE, TWO}
 ```
 
 TypeScript:
-```js
-import {default as env} from 'yag-env';
+```ts
+import * as env from 'yag-env';
 
 console.log(env.ENV); // 'development'
 console.log(env.isProduction); // FALSE
 console.log(env.isStaging); // FALSE
 console.log(env.isTesting); // FALSE
 console.log(env.isDevelopment); // TRUE
-console.log(env.exported); // {ONE, TWO}
+console.log(env.data); // {ONE, TWO}
 ```
+
+### Bundlers
+
+This package will only work on Node.js. To use it on bundlers, you must replace
+the reference to `process.env` using third-party plugins:
+
+#### Webpack
+
+With Webpack you can use the Define plugin to replace `process.env`:
+
+```js
+var DefinePlugin = require('webpack/lib/DefinePlugin');
+var env = require('yag-env/bundling');
+
+module.exports = {
+  // ...
+  plugins: [
+    new DefinePlugin({
+      'process.env': JSON.stringify(env)
+    })
+  ]
+  // ...
+};
+```
+
+_**IMPORTANT**: On other build-tools you must use something similar_
