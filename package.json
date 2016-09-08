@@ -15,9 +15,9 @@
   "jsnext:main": "esm/index.js",
   "typings": "index.d.ts",
   "devDependencies": {
-    "npm-run-all": "^3.0.0",
-    "typescript": "^2.0.0",
-    "@types/node": "^6.0.37",
+    "npm-run-all": "^3.1.0",
+    "typescript": "^2.0.2",
+    "@types/node": "^6.0.38",
     "yag-node-tools": "^0.0.1"
   },
   "scripts": {
