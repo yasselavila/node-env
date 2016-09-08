@@ -3,6 +3,7 @@
   "description": "Prepares the data defined via 'process.env' to be used in web applications or node packages",
   "version": "0.0.1",
   "license": "BSD-3-Clause",
+  "private": true,
   "author": {
     "name": "Yassel Avila Gil",
     "url": "http://yasselavila.com/"
